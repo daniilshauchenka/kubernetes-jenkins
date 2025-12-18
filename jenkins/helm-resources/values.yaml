@@ -1,0 +1,36 @@
+namespace: ci-cd
+
+image:
+  repository: jfrog.it-academy.by/public/jenkins-ci
+  tag: dshauchenka-1
+  pullPolicy: IfNotPresent
+
+jenkins:
+  adminUser: admin
+  adminPassword: barboss
+  javaOpts: "-Djenkins.install.runSetupWizard=false"
+
+resources:
+  requests:
+    cpu: "2"
+    memory: 2Gi
+  limits:
+    cpu: "3"
+    memory: 3Gi
+
+service:
+  type: ClusterIP
+  httpPort: 8080
+  agentPort: 50000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: jenkins.k8s-17.sa
+  path: /
+  pathType: Prefix
+
+nfs:
+  server: 192.168.37.105
+  path: /mnt/IT-Academy/nfs-data
+  subPath: sa2-33-25/dshauchenka/jenkins
